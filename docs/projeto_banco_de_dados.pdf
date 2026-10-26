@@ -1,0 +1,150 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R 7 0 R 9 0 R] /Count 4 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 11 0 R /F2 12 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 1500 >>
+stream
+BT /F2 21 Tf 52 748 Td (CARNalyzer) Tj ET
+BT /F2 13 Tf 52 717 Td (Projeto do banco de dados e integração CRUD) Tj ET
+BT /F1 10 Tf 52 687 Td (Documento técnico para entrega da Sprint) Tj ET
+BT /F1 10 Tf 52 671 Td (Data: 25 de outubro de 2026) Tj ET
+BT /F2 13 Tf 52 646 Td (Objetivo) Tj ET
+BT /F1 10 Tf 52 625 Td (Descrever a persistência de sessões de telemetria e demonstrar como o) Tj ET
+BT /F1 10 Tf 52 609 Td (aplicativo cria, consulta, atualiza e exclui registros de forma local.) Tj ET
+BT /F2 13 Tf 52 584 Td (SGBD e arquitetura) Tj ET
+BT /F1 10 Tf 52 563 Td (O SGBD adotado é SQLite, um banco relacional embarcado no aplicativo.) Tj ET
+BT /F1 10 Tf 52 547 Td (Não há servidor de banco remoto: os dados permanecem no dispositivo.) Tj ET
+BT /F1 10 Tf 52 522 Td (Android: SQLite nativo acessado pelo pacote sqflite.) Tj ET
+BT /F1 10 Tf 52 506 Td (Web: SQLite compilado para WebAssembly; o arquivo é persistido no) Tj ET
+BT /F1 10 Tf 52 490 Td (IndexedDB do navegador por meio de sqflite_common_ffi_web.) Tj ET
+BT /F1 10 Tf 52 465 Td (A camada BancoDadosLocal isola o SQL da interface. A tela de Logs chama) Tj ET
+BT /F1 10 Tf 52 449 Td (essa camada para todas as operações CRUD e atualiza a lista após o) Tj ET
+BT /F1 10 Tf 52 433 Td (resultado do banco. Tema e veículo configurado continuam em) Tj ET
+BT /F1 10 Tf 52 417 Td (SharedPreferences, pois são preferências simples, não dados de sessão.) Tj ET
+BT /F1 8 Tf 52 28 Td (CARNalyzer | Projeto do banco de dados | Sprint) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 11 0 R /F2 12 0 R >> >> /Contents 6 0 R >>
+endobj
+6 0 obj
+<< /Length 1730 >>
+stream
+BT /F2 21 Tf 52 748 Td (Projeto lógico) Tj ET
+BT /F2 13 Tf 52 717 Td (Tabela logs) Tj ET
+BT /F1 10 Tf 52 696 Td (Cada linha representa uma sessão de telemetria gravada.) Tj ET
+BT /F1 10 Tf 52 671 Td (CREATE TABLE logs \() Tj ET
+BT /F1 10 Tf 52 655 Td (  id INTEGER PRIMARY KEY AUTOINCREMENT,) Tj ET
+BT /F1 10 Tf 52 639 Td (  vehicle TEXT NOT NULL,) Tj ET
+BT /F1 10 Tf 52 623 Td (  duration_seconds INTEGER NOT NULL) Tj ET
+BT /F1 10 Tf 52 607 Td (    CHECK \(duration_seconds >= 0\),) Tj ET
+BT /F1 10 Tf 52 591 Td (  timestamp TEXT NOT NULL,) Tj ET
+BT /F1 10 Tf 52 575 Td (  summary TEXT NOT NULL) Tj ET
+BT /F1 10 Tf 52 559 Td (\);) Tj ET
+BT /F2 13 Tf 52 534 Td (Dicionário de dados) Tj ET
+BT /F1 10 Tf 52 513 Td (id - INTEGER; chave primária, gerada pelo SQLite.) Tj ET
+BT /F1 10 Tf 52 497 Td (vehicle - TEXT; identificação do veículo na sessão.) Tj ET
+BT /F1 10 Tf 52 481 Td (duration_seconds - INTEGER; duração total em segundos, não negativa.) Tj ET
+BT /F1 10 Tf 52 465 Td (timestamp - TEXT; data e hora da gravação.) Tj ET
+BT /F1 10 Tf 52 449 Td (summary - TEXT; resumo do estado da sessão OBD-II.) Tj ET
+BT /F2 13 Tf 52 424 Td (Regras e decisões) Tj ET
+BT /F1 10 Tf 52 403 Td (Os campos de sessão são obrigatórios. A duração recebe uma restrição) Tj ET
+BT /F1 10 Tf 52 387 Td (CHECK no banco e também é validada no formulário de edição.) Tj ET
+BT /F1 10 Tf 52 371 Td (O veículo é salvo como retrato textual da sessão; alterações futuras) Tj ET
+BT /F1 10 Tf 52 355 Td (na configuração atual não modificam registros históricos.) Tj ET
+BT /F1 10 Tf 52 339 Td (A chave id permite atualizar ou apagar exatamente uma sessão.) Tj ET
+BT /F1 8 Tf 52 28 Td (CARNalyzer | Projeto do banco de dados | Sprint) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 11 0 R /F2 12 0 R >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 1824 >>
+stream
+BT /F2 21 Tf 52 748 Td (Integração no aplicativo) Tj ET
+BT /F2 13 Tf 52 717 Td (Operações CRUD implementadas) Tj ET
+BT /F1 10 Tf 52 696 Td (Create - ao encerrar uma gravação, inserir a sessão na tabela logs.) Tj ET
+BT /F1 10 Tf 52 680 Td (Read - carregar e listar sessões em ordem decrescente de inclusão.) Tj ET
+BT /F1 10 Tf 52 664 Td (Update - editar veículo, duração, data/hora e resumo da sessão.) Tj ET
+BT /F1 10 Tf 52 648 Td (Delete - remover uma sessão após confirmação explícita do usuário.) Tj ET
+BT /F2 13 Tf 52 623 Td (Fluxo de persistência) Tj ET
+BT /F1 10 Tf 52 602 Td (1. Na inicialização, abrir carnalyzer.db e criar a tabela se necessário.) Tj ET
+BT /F1 10 Tf 52 586 Td (2. Ler as sessões existentes e mostrá-las na tela Logs.) Tj ET
+BT /F1 10 Tf 52 570 Td (3. Executar INSERT, SELECT, UPDATE e DELETE com parâmetros do sqflite.) Tj ET
+BT /F1 10 Tf 52 554 Td (4. Atualizar a interface somente depois do resultado da operação.) Tj ET
+BT /F1 10 Tf 52 538 Td (5. Exibir mensagem se o banco não abrir ou uma operação falhar.) Tj ET
+BT /F2 13 Tf 52 513 Td (Compatibilidade e migração) Tj ET
+BT /F1 10 Tf 52 492 Td (Sessões da versão anterior, que estavam em SharedPreferences como JSON,) Tj ET
+BT /F1 10 Tf 52 476 Td (são importadas para o SQLite na primeira abertura. A preferência antiga) Tj ET
+BT /F1 10 Tf 52 460 Td (é removida depois da importação para evitar duplicação.) Tj ET
+BT /F1 10 Tf 52 444 Td (No navegador, manter a mesma origem e porta durante a demonstração:) Tj ET
+BT /F1 10 Tf 52 428 Td (o IndexedDB é associado à origem do site.) Tj ET
+BT /F1 10 Tf 52 403 Td (Arquivos principais: lib/data/banco_dados_local.dart,) Tj ET
+BT /F1 10 Tf 52 387 Td (lib/models/entrada_log.dart e lib/main.dart.) Tj ET
+BT /F1 8 Tf 52 28 Td (CARNalyzer | Projeto do banco de dados | Sprint) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 11 0 R /F2 12 0 R >> >> /Contents 10 0 R >>
+endobj
+10 0 obj
+<< /Length 1793 >>
+stream
+BT /F2 21 Tf 52 748 Td (Demonstração em aula) Tj ET
+BT /F2 13 Tf 52 717 Td (Roteiro sugerido \(3 a 5 minutos\)) Tj ET
+BT /F1 10 Tf 52 696 Td (1. Executar o aplicativo em Android ou Web.) Tj ET
+BT /F1 10 Tf 52 680 Td (2. Abrir Telemetria e iniciar uma gravação; aguardar alguns segundos.) Tj ET
+BT /F1 10 Tf 52 664 Td (3. Encerrar a gravação: isso cria um novo registro no SQLite.) Tj ET
+BT /F1 10 Tf 52 648 Td (4. Abrir Logs e apontar a sessão recém-criada \(consulta / Read\).) Tj ET
+BT /F1 10 Tf 52 632 Td (5. Usar Editar, alterar o resumo e salvar \(atualização / Update\).) Tj ET
+BT /F1 10 Tf 52 616 Td (6. Criar uma segunda sessão e excluí-la, confirmando a ação \(Delete\).) Tj ET
+BT /F1 10 Tf 52 600 Td (7. Reiniciar o app e mostrar que o registro mantido continua salvo.) Tj ET
+BT /F2 13 Tf 52 575 Td (Comandos de execução e verificação) Tj ET
+BT /F1 10 Tf 52 554 Td (flutter pub get) Tj ET
+BT /F1 10 Tf 52 538 Td (flutter run -d <dispositivo>) Tj ET
+BT /F1 10 Tf 52 522 Td (flutter test test/banco_dados_local_test.dart) Tj ET
+BT /F1 10 Tf 52 506 Td (flutter build web) Tj ET
+BT /F1 10 Tf 52 481 Td (Para regenerar os recursos do SQLite Web após atualizar dependências:) Tj ET
+BT /F1 10 Tf 52 465 Td (dart run sqflite_common_ffi_web:setup) Tj ET
+BT /F1 10 Tf 52 449 Td (O comando cria web/sqlite3.wasm e web/sqflite_sw.js.) Tj ET
+BT /F2 13 Tf 52 424 Td (Evidências para apresentar) Tj ET
+BT /F1 10 Tf 52 403 Td (Mostrar a lista antes e depois de cada operação, a edição persistida) Tj ET
+BT /F1 10 Tf 52 387 Td (após reiniciar o app e o teste automatizado do ciclo CRUD no SQLite.) Tj ET
+BT /F1 10 Tf 52 371 Td (A configuração do veículo e o tema permanecem em SharedPreferences.) Tj ET
+BT /F1 8 Tf 52 28 Td (CARNalyzer | Projeto do banco de dados | Sprint) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+12 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+xref
+0 13
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000133 00000 n 
+0000000271 00000 n 
+0000001823 00000 n 
+0000001961 00000 n 
+0000003743 00000 n 
+0000003881 00000 n 
+0000005757 00000 n 
+0000005896 00000 n 
+0000007742 00000 n 
+0000007840 00000 n 
+trailer
+<< /Size 13 /Root 1 0 R >>
+startxref
+7943
+%%EOF

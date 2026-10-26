@@ -1,0 +1,26 @@
+name: carnalyzer
+description: CARNalyzer - Stellantis Test Tool
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.12.0 <4.0.0"
+  flutter: ">=3.44.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  shared_preferences: ^2.5.6
+  sqflite: ^2.4.5
+  sqflite_common_ffi: ^2.4.5
+  sqflite_common_ffi_web: ^1.2.0
+  universal_ble: ^3.1.2
+  url_launcher: ^6.3.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
